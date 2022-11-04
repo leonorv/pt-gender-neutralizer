@@ -1,0 +1,7 @@
+bem-vindos  boas-vindas
+alunos  corpo estudantil
+professores     corpo docente
+pais    parentes
+homens  pessoas
+coordenadores   coordenação
+
