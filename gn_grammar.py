@@ -1,8 +1,8 @@
 pron_and_dets = {
     "ele" : "éle",
     "eles" : "éles",
-    "ela" : "éla",
-    "elas" : "élas",
+    "ela" : "éle",
+    "elas" : "éles",
 
     "o" : "ê",
     "os" : "ês",
@@ -63,4 +63,49 @@ pron_and_dets = {
     "todos" : "todes",
     "toda" : "tode",
     "todas" : "todes",
+}
+
+gn_alternatives = {
+    "homem" : "pessoa",
+    "homens" : "pessoas",
+    "mulher" : "pessoa",
+    "mulheres" : "pessoas",
+
+    "rapaz" : "jovem",
+    "rapariga" : "jovem",
+    "rapazes" : "jovens",
+    "raparigas" : "jovens",
+
+    "menino" : "criança",
+    "menina" : "criança",
+    "meninos" : "crianças",
+    "meninas" : "crianças",
+
+    "aluno" : "estudante",
+    "aluna" : "estudante",
+    "alunos" : "estudantes",
+    "alunas" : "estudantes",
+
+    "professor" : "docente",
+    "professora" : "docente",
+    "professores" : "docentes",
+    "professoras" : "docentes",
+
+    "marido" : "cônjuge",
+    "maridos" : "cônjuges",
+    "esposo" : "cônjuge",
+    "esposa" : "cônjuge",
+    "esposos" : "cônjuges",
+    "esposas" : "cônjuges",
+
+    "pai" : "parente",
+    "mãe" : "parente",
+    "pais" : "parentes",
+    "mães" : "parentes",
+
+    "rei" : "monarca",
+    "rainha" : "monarca",
+    "reis" : "monarcas",
+    "rainhas" : "monarcas",
+
 }

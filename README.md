@@ -9,6 +9,6 @@ Module for gender neutralization of entities in portuguese
     - follow download instructions at https://pypi.org/project/wn/ (synsets are required)
 
 ## Execution
-```python3 gender_neutralizer.py [filename]```
+```python3 main.py [filename]```
 - where [filename] contains the string to neutralize
 

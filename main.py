@@ -9,7 +9,6 @@ import stanza
 from prp_extractor import check_refers_to_person, get_roots_of_people_and_people
 from neutralizer import neutralize, e_termination_neutralizer
 
-
 # ARGUMENT PARSING
 parser = argparse.ArgumentParser()
 parser.add_argument('filename')
@@ -26,7 +25,6 @@ print("Gender Neutralizer assumes that the input text is written in a binary-gen
 print("Currently, Gender Neutralizer only supports a neutral form with an -e termination. Gender neutralizer uses the gender neutral neopronoun éle.")
 print("Do you wish to omit determinants that precede proper nouns? This is recommended for legibility. (y/n)")
 omit_dets = input()
-
 # INPUT CHECK
 while omit_dets not in ('y', 'n'):
     print("Please input y/n")
@@ -34,15 +32,25 @@ while omit_dets not in ('y', 'n'):
 
 omit_dets = (omit_dets == 'y')
 
+print("Do you wish to check already existent gender-neutral alternatives to words? (y/n)")
+check_alt = input()
+# INPUT CHECK
+while check_alt  not in ('y', 'n'):
+    print("Please input y/n")
+    check_alt  = input()
+
+check_alt  = (check_alt  == 'y')
+
+
 
 
 # CREATING NEW STRING
 res = ""
 for sentence in doc.sentences:
-    roots_of_people, people = get_roots_of_people_and_people(sentence)
+    roots_of_people, people, proper_nouns = get_roots_of_people_and_people(sentence)
     for word in sentence.words:
         if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN"]:
-            neutral_word = neutralize(word, people, roots_of_people, omit_dets)
+            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt)
             if neutral_word != "[omitted]":
                 res += (neutral_word + " ")
         elif word.upos == "PUNCT":

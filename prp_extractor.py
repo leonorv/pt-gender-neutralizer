@@ -24,20 +24,24 @@ def check_refers_to_person(word):
     for w in wn.synsets(word.lemma):  # checking all synsets (we need to do this, the first one might not refer to a person but the next ones might)
         try:
             wn.taxonomy.shortest_path(w, pessoa)  # checking for the existence of a path between the word and the concept of person
+            #print(word, "É pessoa\n")
             return True
         except:
-            return False
+            #print(word, "NÃO É pessoa\n")
+            continue
     return False
 
 
 def get_roots_of_people_and_people(sentence):
     r = []
     p = []
+    proper_nouns = []
     for word in sentence.words:
         # proper nouns always refer to people
         if word.upos == "PROPN":
             r.append(word.head)
             p.append(word.id)
+            proper_nouns.append(word.id)
         elif word.upos == "NOUN" and check_refers_to_person(word):
             r.append(word.head)
             p.append(word.id)
@@ -45,4 +49,4 @@ def get_roots_of_people_and_people(sentence):
         elif word.upos == "PRON" and re.search("PronType=Prs", word.feats):
             r.append(word.head)
             p.append(word.id)
-    return r, p
+    return r, p, proper_nouns
