@@ -1,8 +1,14 @@
 pron_and_dets = {
-    "ele" : "éle",
-    "eles" : "éles",
-    "ela" : "éle",
-    "elas" : "éles",
+
+    "eu" : "eu",
+    "tu" : "tu",
+    "nós" : "nós",
+    "vós" : "vós",
+
+    "ele" : "elu",
+    "eles" : "elus",
+    "ela" : "elu",
+    "elas" : "elus",
 
     "o" : "ê",
     "os" : "ês",
@@ -13,6 +19,11 @@ pron_and_dets = {
     "los" : "lês",
     "la" : "lê",
     "las" : "lês",
+
+    "meu" : "minhe",
+    "meus" : "minhes",
+    "minha" : "minhe",
+    "minhas" : "minhes",
 
     "teu" : "tue",
     "teus" : "tues",
@@ -34,20 +45,20 @@ pron_and_dets = {
     "vossa" : "vosse",
     "vossas" : "vosses",
 
-    "esse" : "ésse",
-    "esses" : "ésses",
-    "essa" : "ésse",
-    "essas" : "ésses",
+    "esse" : "essu",
+    "esses" : "essus",
+    "essa" : "essu",
+    "essas" : "essus",
 
-    "este" : "éste",
-    "estes" : "éstes",
-    "esta" : "éste",
-    "estas" : "éstes",
+    "este" : "estu",
+    "estes" : "estus",
+    "esta" : "estu",
+    "estas" : "estus",
 
-    "aquele" : "aquéle",
-    "aqueles" : "aquéles",
-    "aquela" : "aquéla",
-    "aquelas" : "aquélas",
+    "aquele" : "aquelu",
+    "aqueles" : "aquelus",
+    "aquela" : "aquelu",
+    "aquelas" : "aquelus",
 
     "mesmo" : "mesme",
     "mesmos" : "mesmes",
@@ -63,6 +74,22 @@ pron_and_dets = {
     "todos" : "todes",
     "toda" : "tode",
     "todas" : "todes",
+}
+
+adpos = {
+    "dele" : "delu",
+    "deles" : "delus",
+    "dela" : "delu",
+    "delas" : "delus",
+
+    "nele" : "nelu",
+    "neles" : "nelus",
+    "nele" : "nelu",
+    "neles" : "nelus",
+
+    "pelo" : "por",
+    "pela" : "por"
+
 }
 
 gn_alternatives = {

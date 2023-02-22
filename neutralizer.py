@@ -2,7 +2,7 @@
 Neutralizer
 
 """
-from gn_grammar import pron_and_dets, gn_alternatives
+from gn_grammar import pron_and_dets, gn_alternatives, adpos
 
 # for nouns and adjectives
 def e_termination_neutralizer(word, check_alt):
@@ -18,7 +18,7 @@ def e_termination_neutralizer(word, check_alt):
     elif word.text.endswith('go') or word.text.endswith('ga'):
         return word.text[:-1] + 'ue'
     elif word.text.endswith('gos') or word.text.endswith('gas'):
-        return word.text[:-1] + 'ues'
+        return word.text[:-2] + 'ues'
     # -nho/-nha/-nhe
     elif word.text.endswith('nho') or word.text.endswith('nha'):
         return word.text[:-1] + 'e'
@@ -121,9 +121,17 @@ def e_termination_neutralizer(word, check_alt):
     return word.text
 
 
-def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt):
+def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens):
     res = ""
-    if word.upos == "DET":
+
+    # deal with multi-word tokens: we check the grammar for ADP and ignore PRON
+    if word.upos == "ADP":
+        if word.id in multi_tokens.keys() and multi_tokens[word.id] in adpos.keys():
+            res = adpos[multi_tokens[word.id]]
+        else:
+            res = word.text
+
+    elif word.upos == "DET":
         if word.head in people:
             if word.text.lower() in pron_and_dets: 
                 res = pron_and_dets.get(word.text.lower())
@@ -136,7 +144,12 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
             res = word.text
 
     elif word.upos == "PRON":
-        if word.id in people:
+
+        # deal with mwt: ignore pron
+        if word.id in multi_tokens.keys() and multi_tokens[word.id] == "":
+            res = ""
+
+        elif word.id in people:
             if word.text.lower() in pron_and_dets: 
                 res = pron_and_dets.get(word.text.lower())
             else:

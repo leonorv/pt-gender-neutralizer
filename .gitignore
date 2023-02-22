@@ -70,3 +70,13 @@ docs/_build/
 
 # Pyenv
 .python-version
+
+# Credentials
+.ini
+tt_credentials.py
+
+# Out and In files
+t.txt
+text.txt
+rbm_out.txt
+gn_expressions.txt

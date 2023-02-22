@@ -20,9 +20,11 @@ with open(args.filename) as file:
 nlp = stanza.Pipeline(lang="pt", processors = 'tokenize,mwt,pos,lemma,depparse')
 doc = nlp(file_content)
 
+#f = open("rbm_out.txt", "w")
+
 print("\nWelcome to Gender Neutralizer!\n")
 print("Gender Neutralizer assumes that the input text is written in a binary-gendered portuguese. It will attempt to replace the pronouns of any binary-gendered entity with a desired gender neutral form.")
-print("Currently, Gender Neutralizer only supports a neutral form with an -e termination. Gender neutralizer uses the gender neutral neopronoun éle.")
+print("Currently, Gender Neutralizer only supports a neutral form with an -e termination. Gender neutralizer uses the gender neutral neopronoun elu.")
 print("Do you wish to omit determinants that precede proper nouns? This is recommended for legibility. (y/n)")
 omit_dets = input()
 # INPUT CHECK
@@ -43,21 +45,35 @@ check_alt  = (check_alt  == 'y')
 
 
 
-
 # CREATING NEW STRING
 res = ""
 for sentence in doc.sentences:
+    multi_tokens = {}
     roots_of_people, people, proper_nouns = get_roots_of_people_and_people(sentence)
     for word in sentence.words:
-        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN"]:
-            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt)
-            if neutral_word != "[omitted]":
+        if word.parent.text != word.text:
+            if word.upos == "ADP":
+                multi_tokens[word.id] = word.parent.text
+            elif word.upos == "PRON":
+                multi_tokens[word.id] = ""
+        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP"]:
+            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens)
+            # dealing with mwt
+            if (word.upos == "PRON" and word.id in multi_tokens.keys()):
+                res += neutral_word
+            # not mwt cases
+            elif neutral_word != "[omitted]":
                 res += (neutral_word + " ")
         elif word.upos == "PUNCT":
             res = res[:-1]
             res += (word.text + " ")
         else:
             res += (word.text + " ")
+
+    # adding a new line for each sentence
+    res += "\n"
+
+        
   
 
 print("\nEXTRAS: Token features as provided by stanza")
@@ -66,12 +82,13 @@ print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.
 
 print("\nEXTRA: Dependency parsing")
 print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
-
-
 print("\nORIGINAL INPUT TEXT:")
 print(file_content)
 print("\nRESULT:")
 print(res)
+#f.write(res)
+
+#f.close()
 
 
 
