@@ -72,7 +72,7 @@ docs/_build/
 .python-version
 
 # Credentials
-.ini
+praw.ini
 tt_credentials.py
 
 # Out and In files
