@@ -18,9 +18,9 @@ Install the requirements (inside the project folder):
 (venv) pip3 install -r requirements.txt
 ```
 
-Install the Portuguese lexicons required from the Multilingual Wordnet collection:
+Install the Portuguese lexicon required from the Multilingual Wordnet collection:
 ```bash
-(venv) python3 -m wn download omw-pt:1.4
+(venv) python3 -m wn download own-pt:1.0.0
 ```
 
 
