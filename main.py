@@ -8,6 +8,7 @@ import argparse
 import stanza
 from prp_extractor import check_refers_to_person, get_roots_of_people_and_people
 from neutralizer import neutralize, e_termination_neutralizer
+from gn_grammar import adpos
 
 # ARGUMENT PARSING
 parser = argparse.ArgumentParser()
@@ -51,12 +52,23 @@ for sentence in doc.sentences:
     multi_tokens = {}
     roots_of_people, people, proper_nouns = get_roots_of_people_and_people(sentence)
     for word in sentence.words:
-        if word.parent.text != word.text:
-            if word.upos == "ADP":
-                multi_tokens[word.id] = word.parent.text
+        # dealing with mwt
+        if word.parent.text != word.text: #and word.parent.text in adpos.keys():
+            # mwt first token can be adp or aux
+            if word.upos in ["ADP", "AUX"]:
+                if word.parent.text in adpos.keys():
+                    multi_tokens[word.id] = word.parent.text
+                else:
+                    res += (word.parent.text + " ")
+                    continue
+
             elif word.upos == "PRON":
-                multi_tokens[word.id] = ""
-        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP"]:
+                if word.parent.text in adpos.keys():
+                    multi_tokens[word.id] = ""
+                else:
+                    res += ""
+                    continue
+        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP", "AUX"]:
             neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens)
             # dealing with mwt
             if (word.upos == "PRON" and word.id in multi_tokens.keys()):
@@ -69,6 +81,7 @@ for sentence in doc.sentences:
             res += (word.text + " ")
         else:
             res += (word.text + " ")
+        #print(res)
 
     # adding a new line for each sentence
     res += "\n"

@@ -125,7 +125,7 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
     res = ""
 
     # deal with multi-word tokens: we check the grammar for ADP and ignore PRON
-    if word.upos == "ADP":
+    if word.upos in ["ADP", "AUX"]:
         if word.id in multi_tokens.keys() and multi_tokens[word.id] in adpos.keys():
             res = adpos[multi_tokens[word.id]]
         else:

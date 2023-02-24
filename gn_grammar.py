@@ -84,8 +84,8 @@ adpos = {
 
     "nele" : "nelu",
     "neles" : "nelus",
-    "nele" : "nelu",
-    "neles" : "nelus",
+    "nela" : "nelu",
+    "nelas" : "nelus",
 
     "pelo" : "por",
     "pela" : "por"
