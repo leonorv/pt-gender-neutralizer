@@ -17,8 +17,17 @@ args = parser.parse_args()
 with open(args.filename) as file:
     file_content = open(args.filename).read()
 
+
+processor_dict = {
+    "tokenize" : "bosque",
+    "mwt" : "bosque",
+    "pos" : "gsd",
+    "lemma" : "bosque",
+    "depparse" : "bosque"
+}
+# 'tokenize,mwt,pos,lemma,depparse'
 # CREATING PIPELINE
-nlp = stanza.Pipeline(lang="pt", processors = 'tokenize,mwt,pos,lemma,depparse')
+nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
 doc = nlp(file_content)
 
 #f = open("rbm_out.txt", "w")
@@ -50,28 +59,28 @@ check_alt  = (check_alt  == 'y')
 res = ""
 for sentence in doc.sentences:
     multi_tokens = {}
-    roots_of_people, people, proper_nouns = get_roots_of_people_and_people(sentence)
+    roots_of_people, people, proper_nouns, gender_neutral_people, gn_keep = get_roots_of_people_and_people(sentence)
     for word in sentence.words:
         # dealing with mwt
         if word.parent.text != word.text: #and word.parent.text in adpos.keys():
-            # mwt first token can be adp or aux
-            if word.upos in ["ADP", "AUX"]:
+            # mwt first token can be adp, aux, or verb
+            if word.upos in ["ADP", "AUX", "VERB"]:
                 if word.parent.text in adpos.keys():
                     multi_tokens[word.id] = word.parent.text
                 else:
                     res += (word.parent.text + " ")
                     continue
 
-            elif word.upos == "PRON":
+            elif word.upos in ["PRON", "DET"]:
                 if word.parent.text in adpos.keys():
                     multi_tokens[word.id] = ""
                 else:
                     res += ""
                     continue
-        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP", "AUX"]:
-            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens)
+        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP", "AUX", "NUM"]:
+            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep)
             # dealing with mwt
-            if (word.upos == "PRON" and word.id in multi_tokens.keys()):
+            if (word.upos in ["PRON", "DET"] and word.id in multi_tokens.keys()):
                 res += neutral_word
             # not mwt cases
             elif neutral_word != "[omitted]":

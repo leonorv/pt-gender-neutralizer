@@ -15,6 +15,11 @@ pron_and_dets = {
     "a" : "ê",
     "as" : "ês",
 
+    "um" : "ume",
+    "uma" : "ume",
+    "uns" : "umes",
+    "umas" : "umes",
+
     "lo" : "lê",
     "los" : "lês",
     "la" : "lê",
@@ -76,6 +81,112 @@ pron_and_dets = {
     "todas" : "todes",
 }
 
+m_to_f_pron_and_dets = {
+
+    "eu" : "eu",
+    "tu" : "tu",
+    "nós" : "nós",
+    "vós" : "vós",
+
+    "ele" : "ela",
+    "eles" : "elas",
+
+    "o" : "a",
+    "os" : "as",
+
+    "um" : "uma",
+    "uns" : "umas",
+
+    "lo" : "la",
+    "los" : "las",
+
+    "meu" : "minha",
+    "meus" : "minhas",
+
+    "teu" : "tua",
+    "teus" : "tuas",
+
+    "seu" : "sua",
+    "seus" : "suas",
+
+    "nosso" : "nossa",
+    "nossos" : "nossas",
+
+    "vosso" : "vossa",
+    "vossos" : "vossas",
+
+    "esse" : "essa",
+    "esses" : "essas",
+
+    "este" : "esta",
+    "estes" : "estas",
+
+    "aquele" : "aquela",
+    "aqueles" : "aquelas",
+
+    "mesmo" : "mesma",
+    "mesmos" : "mesmas",
+
+    "outro" : "outra",
+    "outros" : "outras",
+
+    "todo" : "toda",
+    "todos" : "todas",
+}
+
+f_to_m_pron_and_dets = {
+
+    "eu" : "eu",
+    "tu" : "tu",
+    "nós" : "nós",
+    "vós" : "vós",
+
+    "ela" : "ele",
+    "elas" : "eles",
+
+    "a" : "o",
+    "as" : "os",
+
+    "uma" : "um",
+    "umas" : "uns",
+
+    "la" : "lo",
+    "las" : "los",
+
+    "minha" : "meu",
+    "minhas" : "meus",
+
+    "tua" : "teu",
+    "tuas" : "teus",
+
+    "sua" : "seu",
+    "suas" : "seus",
+
+    "nossa" : "nosso",
+    "nossas" : "nossos",
+
+    "vossa" : "vosso",
+    "vossas" : "vossos",
+
+    "essa" : "esse",
+    "essas" : "esses",
+
+    "esta" : "este",
+    "estas" : "estes",
+
+    "aquela" : "aquele",
+    "aquelas" : "aqueles",
+
+    "mesma" : "mesmo",
+    "mesmas" : "mesmos",
+
+    "outra" : "outro",
+    "outras" : "outros",
+
+    "toda" : "todo",
+    "todas" : "todos",
+}
+
 adpos = {
     "dele" : "delu",
     "deles" : "delus",
@@ -88,25 +199,85 @@ adpos = {
     "nelas" : "nelus",
 
     "pelo" : "por",
-    "pela" : "por"
+    "pela" : "por",
+    "pelos" : "por es",
+    "pelas" : "por es",
 
+    "do" : "de",
+    "da" : "de",
+    "dos" : "des",
+    "das" : "des",
+
+    "no" : "ne",
+    "na" : "ne",
+    "nos" : "nes",
+    "nas" : "nes",
+
+    "num" : "nume",
+    "numa" : "nume",
+    "nuns" : "numes",
+    "numas" : "numes",
 }
 
-gn_alternatives = {
-    "homem" : "pessoa",
-    "homens" : "pessoas",
-    "mulher" : "pessoa",
-    "mulheres" : "pessoas",
+m_to_f_adpos = {
+    "dele" : "dela",
+    "deles" : "delas",
+
+    "nele" : "nela",
+    "neles" : "nelas",
+
+    "pelo" : "pela",
+    "pelos" : "pelas",
+
+    "do" : "da",
+    "dos" : "das",
+
+    "no" : "na",
+    "nos" : "nas",
+
+    "num" : "numa",
+    "nuns" : "numas",
+}
+
+f_to_m_adpos = {
+    "dela" : "dele",
+    "delas" : "deles",
+
+    "nela" : "nele",
+    "nelas" : "neles",
+
+    "pela" : "pelo",
+    "pelas" : "pelos",
+
+    "da" : "do",
+    "das" : "dos",
+
+    "na" : "no",
+    "nas" : "nos",
+
+    "numa" : "num",
+    "numas" : "nuns",
+}
+
+truly_gn_terms = ["pessoa", "criança"]
+truly_gn_alternatives = {
+    "homem" : ["pessoa", "F"],
+    "homens" : ["pessoas", "F"],
+    "mulher" : ["pessoa", "F"],
+    "mulheres" : ["pessoas", "F"],
+
+    "menino" : ["criança", "F"],
+    "menina" : ["criança", "F"],
+    "meninos" : ["crianças", "F"],
+    "meninas" : ["crianças", "F"],
+}
+
+semi_gn_alternatives = {
 
     "rapaz" : "jovem",
     "rapariga" : "jovem",
     "rapazes" : "jovens",
     "raparigas" : "jovens",
-
-    "menino" : "criança",
-    "menina" : "criança",
-    "meninos" : "crianças",
-    "meninas" : "crianças",
 
     "aluno" : "estudante",
     "aluna" : "estudante",
@@ -136,3 +307,9 @@ gn_alternatives = {
     "rainhas" : "monarcas",
 
 }
+
+# gn_nouns are truly non-binary: i can call a woman OR a man "o meu amor" -> no agreement necessary
+gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara"]
+
+# gn_adjectives are not truly non-binary: i can call a woman "uma capitalista"
+gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior"]

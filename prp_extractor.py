@@ -17,9 +17,21 @@ functions:
 
 import re 
 import wn, wn.taxonomy
+from gn_grammar import gn_nouns_non_people, truly_gn_alternatives, truly_gn_terms
 
 def check_refers_to_person(word):
+    # checks if noun is already gender-neutral
+    if word.text in gn_nouns_non_people: 
+        return False
+    elif word.text in truly_gn_alternatives.keys():
+        return True
+
     pessoa = wn.synsets('pessoa', pos='n')[0]
+
+    # case where word does not exist in the wordnet - we neutralize it, fuck it
+    if len(wn.synsets(word.lemma)) == 0:
+        return True
+
     # we check with the lemmatized form because wn is not complete with gender and number
     for w in wn.synsets(word.lemma):  # checking all synsets (we need to do this, the first one might not refer to a person but the next ones might)
         try:
@@ -35,6 +47,8 @@ def check_refers_to_person(word):
 def get_roots_of_people_and_people(sentence):
     r = []
     p = []
+    gn_p = {}
+    gn_keep = []
     proper_nouns = []
     for word in sentence.words:
         # proper nouns always refer to people
@@ -46,7 +60,16 @@ def get_roots_of_people_and_people(sentence):
             r.append(word.head)
             p.append(word.id)
         # assume the personal pronouns always refer to people
-        elif word.upos == "PRON" and re.search("PronType=Prs", word.feats):
+        elif word.upos == "PRON": #and re.search("PronType=Prs", word.feats):
             r.append(word.head)
             p.append(word.id)
-    return r, p, proper_nouns
+
+        # if we can find a gender neutral version of the word
+        if word.text in truly_gn_alternatives.keys():
+            # gn_p contains the id for the gn term as key and the respective gender as value (neutralizer needs it)
+            gn_p[word.id] = truly_gn_alternatives[word.text][1]
+            #gn_p.append((word.id, truly_gn_alternatives[word.text][1]))
+        elif word.text in truly_gn_terms:
+            gn_keep.append(word.id)
+        
+    return r, p, proper_nouns, gn_p, gn_keep
