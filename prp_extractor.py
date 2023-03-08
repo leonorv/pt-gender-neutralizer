@@ -17,7 +17,7 @@ functions:
 
 import re 
 import wn, wn.taxonomy
-from gn_grammar import gn_nouns_non_people, truly_gn_alternatives, truly_gn_terms
+from gn_grammar import gn_nouns_non_people, truly_gn_alternatives, truly_gn_terms, pronouns_that_are_not_people, pronouns_that_are_always_people
 
 def check_refers_to_person(word):
     # checks if noun is already gender-neutral
@@ -33,11 +33,18 @@ def check_refers_to_person(word):
         return True
 
     # we check with the lemmatized form because wn is not complete with gender and number
-    for w in wn.synsets(word.lemma):  # checking all synsets (we need to do this, the first one might not refer to a person but the next ones might)
+    for i, w in enumerate(wn.synsets(word.lemma)):  # checking all synsets (we need to do this, the first one might not refer to a person but the next ones might)
+        if i >= 2:
+            return False
         try:
             wn.taxonomy.shortest_path(w, pessoa)  # checking for the existence of a path between the word and the concept of person
             #print(word, "É pessoa\n")
+
+            # We are capping the maximum size of the path to 6.
+            if len( wn.taxonomy.shortest_path(w, pessoa)) > 6:
+                return False
             return True
+        
         except:
             #print(word, "NÃO É pessoa\n")
             continue
@@ -59,8 +66,8 @@ def get_roots_of_people_and_people(sentence):
         elif word.upos == "NOUN" and check_refers_to_person(word):
             r.append(word.head)
             p.append(word.id)
-        # assume the personal pronouns always refer to people
-        elif word.upos == "PRON": #and re.search("PronType=Prs", word.feats):
+        # assume that pronouns always refer to people - this will be more checks in the neutralizer
+        elif word.upos == "PRON" and word.text.lower() in pronouns_that_are_always_people: #and re.search("PronType=Prs", word.feats):
             r.append(word.head)
             p.append(word.id)
 

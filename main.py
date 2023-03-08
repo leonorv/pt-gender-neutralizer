@@ -2,22 +2,29 @@
 Gender Neutralizer
 
 Replaces the binary-gendered pronouns of entities in a given text by a neutral form.
+It is completely rule-based.
 
 """
 import argparse
 import stanza
-from prp_extractor import check_refers_to_person, get_roots_of_people_and_people
-from neutralizer import neutralize, e_termination_neutralizer
-from gn_grammar import adpos
+from prp_extractor import get_roots_of_people_and_people
+from neutralizer import neutralize
+from gn_grammar import adpos, gn_auxiliary_verbs
 
+#
 # ARGUMENT PARSING
+#
 parser = argparse.ArgumentParser()
-parser.add_argument('filename')
+parser.add_argument("-i", "--input_file", required=True)
+parser.add_argument("-o", "--output_file", required=True)
 args = parser.parse_args()
-with open(args.filename) as file:
-    file_content = open(args.filename).read()
+with open(args.input_file) as file:
+    file_content = open(args.input_file).read()
+f = open(args.output_file, "w")
 
-
+#
+# STANZA MODELS
+#
 processor_dict = {
     "tokenize" : "bosque",
     "mwt" : "bosque",
@@ -25,23 +32,22 @@ processor_dict = {
     "lemma" : "bosque",
     "depparse" : "bosque"
 }
-# 'tokenize,mwt,pos,lemma,depparse'
-# CREATING PIPELINE
+
+# STANZA PIPELINE
 nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
 doc = nlp(file_content)
 
-#f = open("rbm_out.txt", "w")
 
 print("\nWelcome to Gender Neutralizer!\n")
 print("Gender Neutralizer assumes that the input text is written in a binary-gendered portuguese. It will attempt to replace the pronouns of any binary-gendered entity with a desired gender neutral form.")
 print("Currently, Gender Neutralizer only supports a neutral form with an -e termination. Gender neutralizer uses the gender neutral neopronoun elu.")
+
 print("Do you wish to omit determinants that precede proper nouns? This is recommended for legibility. (y/n)")
 omit_dets = input()
 # INPUT CHECK
 while omit_dets not in ('y', 'n'):
     print("Please input y/n")
     omit_dets = input()
-
 omit_dets = (omit_dets == 'y')
 
 print("Do you wish to check already existent gender-neutral alternatives to words? (y/n)")
@@ -50,17 +56,33 @@ check_alt = input()
 while check_alt  not in ('y', 'n'):
     print("Please input y/n")
     check_alt  = input()
-
 check_alt  = (check_alt  == 'y')
 
+#
+# Extra prints
+#
+print("\nEXTRAS: Token features as provided by stanza")
+print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.feats if word.feats else "_"}' for sent in doc.sentences for word in sent.words], sep='\n')
+
+
+print("\nEXTRA: Dependency parsing")
+print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
 
 
 # CREATING NEW STRING
-res = ""
 for sentence in doc.sentences:
+    res = ""
     multi_tokens = {}
+    passive_verbs = []
     roots_of_people, people, proper_nouns, gender_neutral_people, gn_keep = get_roots_of_people_and_people(sentence)
     for word in sentence.words:
+
+        # dealing with passive voice
+        if word.upos == "AUX" and word.text not in gn_auxiliary_verbs:
+            if word.head == word.id + 1 and sentence.words[word.head-1].upos == "VERB":
+                passive_verbs.append(word.head)
+
+
         # dealing with mwt
         if word.parent.text != word.text: #and word.parent.text in adpos.keys():
             # mwt first token can be adp, aux, or verb
@@ -77,10 +99,12 @@ for sentence in doc.sentences:
                 else:
                     res += ""
                     continue
-        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP", "AUX", "NUM"]:
-            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep)
+        
+
+        if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP", "AUX", "NUM", "VERB"]:
+            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep, passive_verbs)
             # dealing with mwt
-            if (word.upos in ["PRON", "DET"] and word.id in multi_tokens.keys()):
+            if (word.upos in ["PRON", "DET", "VERB"] and word.id in multi_tokens.keys()):
                 res += neutral_word
             # not mwt cases
             elif neutral_word != "[omitted]":
@@ -93,24 +117,20 @@ for sentence in doc.sentences:
         #print(res)
 
     # adding a new line for each sentence
-    res += "\n"
+    print(sentence.text, "->", res)
+    f.write(res)
+    f.write('\n')
+    #res += "\n"
 
         
-  
 
-print("\nEXTRAS: Token features as provided by stanza")
-print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.feats if word.feats else "_"}' for sent in doc.sentences for word in sent.words], sep='\n')
-
-
-print("\nEXTRA: Dependency parsing")
-print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
-print("\nORIGINAL INPUT TEXT:")
-print(file_content)
-print("\nRESULT:")
-print(res)
+#print("\nORIGINAL INPUT TEXT:")
+#print(file_content)
+#print("\nRESULT:")
+#print(res)
 #f.write(res)
-
-#f.close()
+#
+f.close()
 
 
 

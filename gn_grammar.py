@@ -5,6 +5,9 @@ pron_and_dets = {
     "nós" : "nós",
     "vós" : "vós",
 
+    "você" : "você",
+    "vocês" : "vocês",
+
     "ele" : "elu",
     "eles" : "elus",
     "ela" : "elu",
@@ -14,6 +17,9 @@ pron_and_dets = {
     "os" : "ês",
     "a" : "ê",
     "as" : "ês",
+
+    "me" : "me",
+    "te" : "te",
 
     "um" : "ume",
     "uma" : "ume",
@@ -55,6 +61,8 @@ pron_and_dets = {
     "essa" : "essu",
     "essas" : "essus",
 
+    "isso" : "isso",
+
     "este" : "estu",
     "estes" : "estus",
     "esta" : "estu",
@@ -79,7 +87,16 @@ pron_and_dets = {
     "todos" : "todes",
     "toda" : "tode",
     "todas" : "todes",
+
+    "tudo" : "tudo",
+
+    "que" : "que",
+    "qual" : "qual",
+    "quais" : "quais"
 }
+
+pronouns_that_are_not_people = ["tudo"]
+pronouns_that_are_always_people = ["eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas", "você", "vocês", "me", "te", "lhe"]
 
 m_to_f_pron_and_dets = {
 
@@ -87,6 +104,9 @@ m_to_f_pron_and_dets = {
     "tu" : "tu",
     "nós" : "nós",
     "vós" : "vós",
+
+    "você" : "você",
+    "vocês" : "vocês",
 
     "ele" : "ela",
     "eles" : "elas",
@@ -99,6 +119,9 @@ m_to_f_pron_and_dets = {
 
     "lo" : "la",
     "los" : "las",
+
+    "me" : "me",
+    "te" : "te",
 
     "meu" : "minha",
     "meus" : "minhas",
@@ -141,6 +164,9 @@ f_to_m_pron_and_dets = {
     "nós" : "nós",
     "vós" : "vós",
 
+    "você" : "você",
+    "vocês" : "vocês",
+
     "ela" : "ele",
     "elas" : "eles",
 
@@ -152,6 +178,9 @@ f_to_m_pron_and_dets = {
 
     "la" : "lo",
     "las" : "los",
+
+    "me" : "me",
+    "te" : "te",
 
     "minha" : "meu",
     "minhas" : "meus",
@@ -237,6 +266,9 @@ m_to_f_adpos = {
 
     "num" : "numa",
     "nuns" : "numas",
+
+    "o" : "a",
+    "os" : "as"
 }
 
 f_to_m_adpos = {
@@ -257,14 +289,23 @@ f_to_m_adpos = {
 
     "numa" : "num",
     "numas" : "nuns",
+
+    "a" : "o",
+    "as" : "os"
 }
 
-truly_gn_terms = ["pessoa", "criança"]
+truly_gn_terms = ["pessoa", "pessoas", "criança", "crianças", "indivíduo", "indivíduos"]
 truly_gn_alternatives = {
     "homem" : ["pessoa", "F"],
     "homens" : ["pessoas", "F"],
     "mulher" : ["pessoa", "F"],
     "mulheres" : ["pessoas", "F"],
+
+    "homem" : ["indivíduo", "M"],
+    "homens" : ["pessoas", "F"],
+    "mulher" : ["pessoa", "F"],
+    "mulheres" : ["pessoas", "F"],
+
 
     "menino" : ["criança", "F"],
     "menina" : ["criança", "F"],
@@ -272,6 +313,7 @@ truly_gn_alternatives = {
     "meninas" : ["crianças", "F"],
 }
 
+semi_gn_nouns = ["polícia", "policial", "agente", "capitalista", "comunista", "fascista", "liberal", "bebé", "bebê", "líder"]
 semi_gn_alternatives = {
 
     "rapaz" : "jovem",
@@ -312,4 +354,8 @@ semi_gn_alternatives = {
 gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara"]
 
 # gn_adjectives are not truly non-binary: i can call a woman "uma capitalista"
-gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior"]
+gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior", "impossível"]
+
+# auxliliary verbs for main verbs that require an aux verb, but that do not imply a gendered main verb form
+# ele tem andado
+gn_auxiliary_verbs = ["tenho", "tem", "temos", "tendes", "têm"]

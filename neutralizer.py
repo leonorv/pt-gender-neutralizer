@@ -1,8 +1,22 @@
 """
 Neutralizer
 
+Rewrites a binary-gendered term as gender neutral. It can check already existing alternative terms in the grammar or rewrite using gender-neutral language.
+
+Requires the gn_grammar module as the gender neutral grammar rules to follow.
+
+This file can be imported as a module and contains the following
+functions:
+    - Auxiliary functions:
+    * e_termination_neutralizer - applies rules for rewriting gendered terms (-o and -a) to neutral (-e or -u)
+    * o_to_a_termination_switcher - switches a terms's termination from masculine (-o) to feminine (-a)
+    * a_to_o_termination_switcher - switches a terms's termination from feminine (-a) to masculine (-o)
+
+    - Main function:
+    * neutralize - applies the previous functions, as well as the gender neutral grammars, as necessary in order to rewrite terms as gender neutral; requires information from PaRP
+
 """
-from gn_grammar import pron_and_dets, semi_gn_alternatives, truly_gn_alternatives, adpos, m_to_f_adpos, m_to_f_pron_and_dets, f_to_m_adpos, f_to_m_pron_and_dets, gn_nouns_non_people, gn_adjectives
+from gn_grammar import pron_and_dets, semi_gn_alternatives, truly_gn_alternatives, adpos, m_to_f_adpos, m_to_f_pron_and_dets, f_to_m_adpos, f_to_m_pron_and_dets, gn_nouns_non_people, gn_adjectives, semi_gn_nouns
 
 # for nouns and adjectives
 def e_termination_neutralizer(word, check_alt):
@@ -40,7 +54,7 @@ def e_termination_neutralizer(word, check_alt):
     elif word.text.endswith('ãos'):
         return word.text[:-1] + 'es'
     elif word.text.endswith('ãs'):
-        return word.text + 'es'
+        return word.text[:-1] + 'es'
     # -ona/-one
     elif word.text.endswith('ona'):
         return word.text[:-1] + 'e'
@@ -283,7 +297,7 @@ def a_to_o_termination_switcher(word):
     return word.text
 
 
-def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep):
+def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep, passive_verbs):
     res = ""
 
     # deal with multi-word tokens: we check the grammar for ADP and ignore PRON
@@ -318,6 +332,7 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
         else:
             res = word.parent.text
 
+    # deal with multi-word tokens: we check the grammar for ADP and ignore PRON
     elif word.upos == "AUX":
         if word.head in gn_keep:
             res = word.parent.text
@@ -384,7 +399,8 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
         if word.id in multi_tokens.keys() and multi_tokens[word.id] == "":
             res = ""
 
-        elif word.id in people:
+        # if head of the pronoun is not a person then we do not change it
+        elif word.id in people or word.head in people:
             if word.text.lower() in pron_and_dets: 
                 res = pron_and_dets.get(word.text.lower())
             else:
@@ -403,6 +419,8 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
     # wordnet checks if the noun refers to a person
     elif word.upos == "NOUN":
         if word.id in gn_keep:
+            res = word.text
+        elif word.text in semi_gn_nouns:
             res = word.text
         elif word.id in people:
             res = e_termination_neutralizer(word, check_alt)
@@ -424,10 +442,30 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
         elif word.head in gn_keep:
             res = word.text
 
-        elif word.id in roots_of_people or word.head in roots_of_people or word.head in people or word.id in people:
+        elif word.id in roots_of_people or word.head in people or word.id in people or word.head in roots_of_people:
             res = e_termination_neutralizer(word, check_alt)
         else: 
             res = word.text
+
+    elif word.upos == "VERB":
+        if word.id not in passive_verbs:
+            res = word.text
+        else:
+            # gerundio
+            if word.text.endswith(('ando', 'endo', 'indo')):
+                res = word.text
+
+            # particípio
+            # malcriado -> malcriade
+            elif word.text.endswith(('ido', 'ado')):
+                res = word.text[:-1] + 'e'
+            # malcriada -> malcriade
+            elif word.text.endswith(('ida', 'ada')):
+                res = word.text[:-1] + 'e'
+
+            else:
+                res = word.text
+
 
     elif word.text in gn_adjectives:
         res = word.text
