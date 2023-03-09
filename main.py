@@ -33,7 +33,9 @@ processor_dict = {
     "depparse" : "bosque"
 }
 
+#
 # STANZA PIPELINE
+#
 nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
 doc = nlp(file_content)
 
@@ -44,7 +46,10 @@ print("Currently, Gender Neutralizer only supports a neutral form with an -e ter
 
 print("Do you wish to omit determinants that precede proper nouns? This is recommended for legibility. (y/n)")
 omit_dets = input()
+
+#
 # INPUT CHECK
+#
 while omit_dets not in ('y', 'n'):
     print("Please input y/n")
     omit_dets = input()
@@ -52,7 +57,10 @@ omit_dets = (omit_dets == 'y')
 
 print("Do you wish to check already existent gender-neutral alternatives to words? (y/n)")
 check_alt = input()
+
+#
 # INPUT CHECK
+#
 while check_alt  not in ('y', 'n'):
     print("Please input y/n")
     check_alt  = input()
@@ -68,45 +76,63 @@ print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.
 print("\nEXTRA: Dependency parsing")
 print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
 
-
+#
 # CREATING NEW STRING
+#
 for sentence in doc.sentences:
     res = ""
     multi_tokens = {}
-    passive_verbs = []
+    verbs_with_aux = []
+
+    #
+    # 1. Get info from PaRP
+    #
     roots_of_people, people, proper_nouns, gender_neutral_people, gn_keep = get_roots_of_people_and_people(sentence)
+
     for word in sentence.words:
 
-        # dealing with passive voice
+        #
+        # 2. Main verbs with auxiliary verbs that require neutralization. There are some that do not require neutralization (stored in gn_auxiliary verbs)
+        #
         if word.upos == "AUX" and word.text not in gn_auxiliary_verbs:
             if word.head == word.id + 1 and sentence.words[word.head-1].upos == "VERB":
-                passive_verbs.append(word.head)
+                verbs_with_aux.append(word.head)
 
-
-        # dealing with mwt
-        if word.parent.text != word.text: #and word.parent.text in adpos.keys():
-            # mwt first token can be adp, aux, or verb
+        # 
+        # 3. Dealing with multi-word tokens (eg. pela, dele, etc...)
+        #
+        if word.parent.text != word.text:
+            # MWT first token can be ADP, AUX, or VERB
             if word.upos in ["ADP", "AUX", "VERB"]:
+                # terms in apos require neutralization
                 if word.parent.text in adpos.keys():
                     multi_tokens[word.id] = word.parent.text
+                # terms not in adpos are left alone - this is a bit on uncharted territory
                 else:
                     res += (word.parent.text + " ")
                     continue
 
+            # MWT second token can be PRON or DET
             elif word.upos in ["PRON", "DET"]:
+                # CONVENTION: second token key is an empty string, meaning it should be ignored in the neutralizer
                 if word.parent.text in adpos.keys():
                     multi_tokens[word.id] = ""
+                # terms not in adpos are left alone - this is a bit on uncharted territory
                 else:
                     res += ""
                     continue
         
+        print(multi_tokens)
 
+        # 
+        # 4. Send necessary terms to the Neutralizer, along with info from PaRP and stuff from the filters 2. and 3. 
+        #
         if word.upos in ["DET","PRON", "ADJ", "NOUN", "PROPN", "ADP", "AUX", "NUM", "VERB"]:
-            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep, passive_verbs)
-            # dealing with mwt
+            neutral_word = neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep, verbs_with_aux)
+            # MWT spacing 
             if (word.upos in ["PRON", "DET", "VERB"] and word.id in multi_tokens.keys()):
                 res += neutral_word
-            # not mwt cases
+            # Not MWT cases
             elif neutral_word != "[omitted]":
                 res += (neutral_word + " ")
         elif word.upos == "PUNCT":

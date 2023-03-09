@@ -95,7 +95,6 @@ pron_and_dets = {
     "quais" : "quais"
 }
 
-pronouns_that_are_not_people = ["tudo"]
 pronouns_that_are_always_people = ["eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas", "você", "vocês", "me", "te", "lhe"]
 
 m_to_f_pron_and_dets = {
@@ -358,4 +357,4 @@ gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "
 
 # auxliliary verbs for main verbs that require an aux verb, but that do not imply a gendered main verb form
 # ele tem andado
-gn_auxiliary_verbs = ["tenho", "tem", "temos", "tendes", "têm"]
+gn_auxiliary_verbs = ["tenho", "tem", "temos", "tendes", "têm", "tinha", "tinhas", "tínhamos", "tinham", "terei", "terá", "teremos", "tereis", "terão"]
