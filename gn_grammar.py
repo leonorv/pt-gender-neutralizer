@@ -312,7 +312,7 @@ truly_gn_alternatives = {
     "meninas" : ["crianças", "F"],
 }
 
-semi_gn_nouns = ["polícia", "policial", "agente", "capitalista", "comunista", "fascista", "liberal", "bebé", "bebê", "líder"]
+semi_gn_nouns = ["polícia", "policial", "presidente", "agente", "capitalista", "comunista", "fascista", "liberal", "bebé", "bebê", "líder"]
 semi_gn_alternatives = {
 
     "rapaz" : "jovem",

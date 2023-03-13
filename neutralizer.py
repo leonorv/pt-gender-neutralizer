@@ -25,7 +25,7 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
     # deal with multi-word tokens: we check the grammar for ADP and ignore PRON
     if word.upos == "ADP":
 
-        # we are keeping the gender of the 
+        # we are keeping the gender of the alternative gender neutral term
         if word.head in gn_keep:
             res = word.parent.text
 

@@ -33,12 +33,11 @@ def check_refers_to_person(word):
 
     # We check with the lemmatized form because wn is not complete with gender and number
     for i, w in enumerate(wn.synsets(word.lemma)):  # checking all synsets (we need to do this, the first one might not refer to a person but the next ones might)
-        # If the synset is not in the first 2 positions we give up (otherwise we would get a lot of false positives)
-        if i >= 2:
+        # If the synset is not in the first 3 positions we give up (otherwise we would get a lot of false positives)
+        if i > 2:
             return False
         try:
             wn.taxonomy.shortest_path(w, pessoa)  # Checking for the existence of a path between the word and the concept of person
-            #print(word, "É pessoa\n")
 
             # We are capping the maximum size of the path to 6.
             if len( wn.taxonomy.shortest_path(w, pessoa)) > 6:

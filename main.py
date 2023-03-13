@@ -102,18 +102,32 @@ for sentence in doc.sentences:
         # 3. Dealing with multi-word tokens (eg. pela, dele, etc...)
         #
         if word.parent.text != word.text:
+
             # MWT first token can be ADP, AUX, or VERB
             if word.upos in ["ADP", "AUX", "VERB"]:
+
+                # Checks if it's an hifenated mwt
+                if '-' in word.parent.text:
+                    res += (word.parent.text + " ")
+                    continue
+
+
                 # terms in apos require neutralization
-                if word.parent.text in adpos.keys():
+                elif word.parent.text in adpos.keys():
                     multi_tokens[word.id] = word.parent.text
                 # terms not in adpos are left alone - this is a bit on uncharted territory
                 else:
                     res += (word.parent.text + " ")
                     continue
 
-            # MWT second token can be PRON or DET
-            elif word.upos in ["PRON", "DET"]:
+            # MWT second token can be PRON or DET (ou NOUN/X for accomodating stanza errors)
+            elif word.upos in ["PRON", "DET", "NOUN", "X"]:
+
+                # Checks if it's an hifenated mwt
+                if '-' in word.parent.text:
+                    res += ""
+                    continue
+
                 # CONVENTION: second token key is an empty string, meaning it should be ignored in the neutralizer
                 if word.parent.text in adpos.keys():
                     multi_tokens[word.id] = ""
@@ -122,7 +136,6 @@ for sentence in doc.sentences:
                     res += ""
                     continue
         
-        print(multi_tokens)
 
         # 
         # 4. Send necessary terms to the Neutralizer, along with info from PaRP and stuff from the filters 2. and 3. 
