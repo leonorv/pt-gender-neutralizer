@@ -26,7 +26,8 @@ Install the Portuguese lexicon required from the Multilingual Wordnet collection
 
 ## Execution
 ```python
-(venv) python3 gender_neutralizer.py [filename]
+(venv) python3 main.py -i [input file name] -o [output file name]
 ```
-- where [filename] contains the string to neutralize
+- where [input file name] contains the text to rewrite
+- and [output file name] is the file where the output will be written
 
