@@ -12,12 +12,12 @@ def e_termination_neutralizer(word, check_alt):
     if word.text.endswith('co') or word.text.endswith('ca'):
         return word.text[:-2] + 'que'
     elif word.text.endswith('cos') or word.text.endswith('cas'):
-        return word.text[:-2] + 'ques'
+        return word.text[:-3] + 'ques'
     # -ço/-ça/-ce
     elif word.text.endswith('ço') or word.text.endswith('ça'):
         return word.text[:-2] + 'ce'
     elif word.text.endswith('ços') or word.text.endswith('ças'):
-        return word.text[:-2] + 'ces'
+        return word.text[:-3] + 'ces'
     # -go/-ga/-gue
     elif word.text.endswith('go') or word.text.endswith('ga'):
         return word.text[:-1] + 'ue'

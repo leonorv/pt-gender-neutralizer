@@ -26,6 +26,16 @@ pron_and_dets = {
     "uns" : "umes",
     "umas" : "umes",
 
+    "algum" : "algume",
+    "alguma" : "algume",
+    "alguns" : "algumes",
+    "algumas" : "algumes",
+
+    "nenhum" : "nenhume",
+    "nenhuma" : "nenhume",
+    "nenhuns" : "nenhumes",
+    "nenhumas" : "nenhumes",
+
     "lo" : "lê",
     "los" : "lês",
     "la" : "lê",
@@ -116,6 +126,12 @@ m_to_f_pron_and_dets = {
     "um" : "uma",
     "uns" : "umas",
 
+    "algum" : "alguma",
+    "alguns" : "algumas",
+
+    "nenhum" : "nenhuma",
+    "nenhuns" : "nenhumas",
+
     "lo" : "la",
     "los" : "las",
 
@@ -174,6 +190,12 @@ f_to_m_pron_and_dets = {
 
     "uma" : "um",
     "umas" : "uns",
+
+    "alguma" : "algum",
+    "algumas" : "alguns",
+
+    "nenhuma" : "nenhum",
+    "nenhumas" : "nenhuns",
 
     "la" : "lo",
     "las" : "los",
@@ -293,7 +315,7 @@ f_to_m_adpos = {
     "as" : "os"
 }
 
-truly_gn_terms = ["pessoa", "pessoas", "criança", "crianças", "indivíduo", "indivíduos"]
+truly_gn_terms = ["pessoa", "pessoas", "criança", "crianças", "indivíduo", "indivíduos", "vítima", "vítimas"]
 truly_gn_alternatives = {
     "homem" : ["pessoa", "F"],
     "homens" : ["pessoas", "F"],
@@ -357,4 +379,4 @@ gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "
 
 # auxliliary verbs for main verbs that require an aux verb, but that do not imply a gendered main verb form
 # ele tem andado
-gn_auxiliary_verbs = ["tenho", "tem", "temos", "tendes", "têm", "tinha", "tinhas", "tínhamos", "tinham", "terei", "terá", "teremos", "tereis", "terão"]
+gn_auxiliary_verbs = ["tenho", "tem", "temos", "tendes", "têm", "tinha", "tinhas", "tínhamos", "tinham", "terei", "terá", "teremos", "tereis", "terão", "ter"]

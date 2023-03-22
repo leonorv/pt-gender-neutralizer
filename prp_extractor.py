@@ -14,7 +14,7 @@ functions:
 
 """
 
-import wn, wn.taxonomy
+from nltk.corpus import wordnet as wn
 from gn_grammar import gn_nouns_non_people, truly_gn_alternatives, truly_gn_terms, pronouns_that_are_always_people
 
 def check_refers_to_person(word):
@@ -24,33 +24,26 @@ def check_refers_to_person(word):
     # Checks if noun is already gender-neutral
     elif word.text in truly_gn_alternatives.keys():
         return True
-
-    pessoa = wn.synsets('pessoa', pos='n')[0]
-
+    
     # Case where word does not exist in the wordnet - we neutralize it, fuck it
-    if len(wn.synsets(word.lemma)) == 0:
+    if len(wn.synsets(word.lemma, lang="por")) == 0:
         return True
-
-    # We check with the lemmatized form because wn is not complete with gender and number
-    for i, w in enumerate(wn.synsets(word.lemma)):  # checking all synsets (we need to do this, the first one might not refer to a person but the next ones might)
-        # If the synset is not in the first 3 positions we give up (otherwise we would get a lot of false positives)
-        if i > 2:
-            return False
-        try:
-            wn.taxonomy.shortest_path(w, pessoa)  # Checking for the existence of a path between the word and the concept of person
-
-            # We are capping the maximum size of the path to 6.
-            if len( wn.taxonomy.shortest_path(w, pessoa)) > 6:
-                return False
+    
+    for syn in wn.synsets(word.lemma, lang="por"):
+        if syn.lexname() == "noun.person":
+            #print(word, "É pessoa\n")
             return True
         
-        except:
-            #print(word, "NÃO É pessoa\n")
-            continue
+    #print(word, "NAO É pessoa\n")
     return False
+        
+        
 
 
-def get_roots_of_people_and_people(sentence):
+        
+
+
+def get_roots_of_people_and_people(sentence, ner_proper_nouns):
     r = []
     p = []
     gn_p = {}
@@ -58,7 +51,7 @@ def get_roots_of_people_and_people(sentence):
     proper_nouns = []
     for word in sentence.words:
         # proper nouns always refer to people
-        if word.upos == "PROPN":
+        if word.upos == "PROPN" and word.text in ner_proper_nouns:
             r.append(word.head)
             p.append(word.id)
             proper_nouns.append(word.id)

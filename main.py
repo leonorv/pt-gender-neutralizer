@@ -33,11 +33,24 @@ processor_dict = {
     "depparse" : "bosque"
 }
 
+spanish_processor_dict = {
+    "tokenize" : "ancora",
+    "mwt" : "ancora",
+    "ner" : "CoNLL02"
+}
+
 #
 # STANZA PIPELINE
 #
 nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
 doc = nlp(file_content)
+
+#
+# STANZA PIPELINE FOR NER (SPANISH)
+#
+
+nlp_ner = stanza.Pipeline(lang="es", processors = spanish_processor_dict)
+doc_ner = nlp_ner(file_content)
 
 
 print("\nWelcome to Gender Neutralizer!\n")
@@ -76,6 +89,16 @@ print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.
 print("\nEXTRA: Dependency parsing")
 print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
 
+
+ner_proper_nouns = []
+for sentence in doc_ner.sentences:
+    for token in sentence.tokens:
+        if "PER" in token.ner:
+            ner_proper_nouns.append(token.text)
+
+#print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc_ner.sentences for token in sent.tokens], sep='\n')
+
+
 #
 # CREATING NEW STRING
 #
@@ -87,7 +110,7 @@ for sentence in doc.sentences:
     #
     # 1. Get info from PaRP
     #
-    roots_of_people, people, proper_nouns, gender_neutral_people, gn_keep = get_roots_of_people_and_people(sentence)
+    roots_of_people, people, proper_nouns, gender_neutral_people, gn_keep = get_roots_of_people_and_people(sentence, ner_proper_nouns)
 
     for word in sentence.words:
 
