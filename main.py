@@ -39,19 +39,6 @@ spanish_processor_dict = {
     "ner" : "CoNLL02"
 }
 
-#
-# STANZA PIPELINE
-#
-nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
-doc = nlp(file_content)
-
-#
-# STANZA PIPELINE FOR NER (SPANISH)
-#
-
-nlp_ner = stanza.Pipeline(lang="es", processors = spanish_processor_dict)
-doc_ner = nlp_ner(file_content)
-
 
 print("\nWelcome to Gender Neutralizer!\n")
 print("Gender Neutralizer assumes that the input text is written in a binary-gendered portuguese. It will attempt to replace the pronouns of any binary-gendered entity with a desired gender neutral form.")
@@ -80,6 +67,25 @@ while check_alt  not in ('y', 'n'):
 check_alt  = (check_alt  == 'y')
 
 #
+# STANZA PIPELINE
+#
+nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
+doc = nlp(file_content)
+
+#
+# STANZA PIPELINE FOR NER (SPANISH)
+#
+
+nlp_ner = stanza.Pipeline(lang="es", processors = spanish_processor_dict)
+doc_ner = nlp_ner(file_content)
+
+ner_proper_nouns = []
+for sentence in doc_ner.sentences:
+    for token in sentence.tokens:
+        if "PER" in token.ner:
+            ner_proper_nouns.append(token.text)
+
+#
 # Extra prints
 #
 print("\nEXTRAS: Token features as provided by stanza")
@@ -90,13 +96,8 @@ print("\nEXTRA: Dependency parsing")
 print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
 
 
-ner_proper_nouns = []
-for sentence in doc_ner.sentences:
-    for token in sentence.tokens:
-        if "PER" in token.ner:
-            ner_proper_nouns.append(token.text)
-
-#print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc_ner.sentences for token in sent.tokens], sep='\n')
+print("\nEXTRA: Named Entity Recognition from the spanish pipeline")
+print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc_ner.sentences for token in sent.tokens], sep='\n')
 
 
 #

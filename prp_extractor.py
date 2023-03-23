@@ -27,11 +27,12 @@ def check_refers_to_person(word):
     
     # Case where word does not exist in the wordnet - we neutralize it, fuck it
     if len(wn.synsets(word.lemma, lang="por")) == 0:
+        print(word, "NÃO CONHECEMOS\n")
         return True
     
     for syn in wn.synsets(word.lemma, lang="por"):
         if syn.lexname() == "noun.person":
-            #print(word, "É pessoa\n")
+            print(word, "É pessoa\n")
             return True
         
     #print(word, "NAO É pessoa\n")

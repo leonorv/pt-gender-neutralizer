@@ -102,7 +102,10 @@ pron_and_dets = {
 
     "que" : "que",
     "qual" : "qual",
-    "quais" : "quais"
+    "quais" : "quais",
+
+    "qualquer" : "qualquer",
+    "quaisquer" : "quaisquer"
 }
 
 pronouns_that_are_always_people = ["eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas", "você", "vocês", "me", "te", "lhe"]
@@ -170,6 +173,15 @@ m_to_f_pron_and_dets = {
 
     "todo" : "toda",
     "todos" : "todas",
+
+    "tudo" : "tudo",
+
+    "que" : "que",
+    "qual" : "qual",
+    "quais" : "quais",
+
+    "qualquer" : "qualquer",
+    "quaisquer" : "quaisquer"
 }
 
 f_to_m_pron_and_dets = {
@@ -235,6 +247,15 @@ f_to_m_pron_and_dets = {
 
     "toda" : "todo",
     "todas" : "todos",
+
+    "tudo" : "tudo",
+
+    "que" : "que",
+    "qual" : "qual",
+    "quais" : "quais",
+
+    "qualquer" : "qualquer",
+    "quaisquer" : "quaisquer"
 }
 
 adpos = {
@@ -372,11 +393,11 @@ semi_gn_alternatives = {
 }
 
 # gn_nouns are truly non-binary: i can call a woman OR a man "o meu amor" -> no agreement necessary
-gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara"]
+gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara", "família", "destino", "morte"]
 
 # gn_adjectives are not truly non-binary: i can call a woman "uma capitalista"
 gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior", "impossível"]
 
 # auxliliary verbs for main verbs that require an aux verb, but that do not imply a gendered main verb form
 # ele tem andado
-gn_auxiliary_verbs = ["tenho", "tem", "temos", "tendes", "têm", "tinha", "tinhas", "tínhamos", "tinham", "terei", "terá", "teremos", "tereis", "terão", "ter"]
+gn_auxiliary_verbs = ["tenho", "tenha", "tenhas", "tem", "temos", "tendes", "têm", "tinha", "tinhas", "tínhamos", "tinham", "terei", "terá", "teremos", "tereis", "terão", "ter"]

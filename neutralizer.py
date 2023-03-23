@@ -47,8 +47,10 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
             elif gender_neutral_people[word.head] == "M" and word.parent.text.lower() in m_to_f_adpos: 
                 # nothing changes
                 res = word.parent.text
+
+            # can be a case where the ADP is non-gendered, such as 'com' (ex: Ele dormiu com a mulher.)
             else:
-                res = "[Unknown]"
+                res = word.text
 
         # usual neutralization
         elif (word.head in people or word.id in people) and word.id in multi_tokens.keys() and multi_tokens[word.id] in adpos.keys():
