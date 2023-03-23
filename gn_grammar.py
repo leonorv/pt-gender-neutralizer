@@ -105,7 +105,10 @@ pron_and_dets = {
     "quais" : "quais",
 
     "qualquer" : "qualquer",
-    "quaisquer" : "quaisquer"
+    "quaisquer" : "quaisquer",
+
+    "cada" : "cada",
+    "cadas" : "cadas"
 }
 
 pronouns_that_are_always_people = ["eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas", "você", "vocês", "me", "te", "lhe"]
@@ -181,7 +184,10 @@ m_to_f_pron_and_dets = {
     "quais" : "quais",
 
     "qualquer" : "qualquer",
-    "quaisquer" : "quaisquer"
+    "quaisquer" : "quaisquer",
+
+    "cada" : "cada",
+    "cadas" : "cadas"
 }
 
 f_to_m_pron_and_dets = {
@@ -255,7 +261,10 @@ f_to_m_pron_and_dets = {
     "quais" : "quais",
 
     "qualquer" : "qualquer",
-    "quaisquer" : "quaisquer"
+    "quaisquer" : "quaisquer",
+
+    "cada" : "cada",
+    "cadas" : "cadas"
 }
 
 adpos = {
