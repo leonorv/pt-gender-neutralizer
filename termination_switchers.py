@@ -9,24 +9,24 @@ def e_termination_neutralizer(word, check_alt):
         elif word.text in truly_gn_alternatives.keys():
             return truly_gn_alternatives[word.text][0]
     # -co/-ca/-que
-    if word.text.endswith('co') or word.text.endswith('ca'):
+    if word.text.endswith(('co', 'ca')):
         return word.text[:-2] + 'que'
-    elif word.text.endswith('cos') or word.text.endswith('cas'):
+    elif word.text.endswith(('cos', 'cas')):
         return word.text[:-3] + 'ques'
     # -ço/-ça/-ce
-    elif word.text.endswith('ço') or word.text.endswith('ça'):
+    elif word.text.endswith(('ço', 'ça')):
         return word.text[:-2] + 'ce'
-    elif word.text.endswith('ços') or word.text.endswith('ças'):
+    elif word.text.endswith(('ços', 'ças')):
         return word.text[:-3] + 'ces'
     # -go/-ga/-gue
-    elif word.text.endswith('go') or word.text.endswith('ga'):
+    elif word.text.endswith(('go', 'ga')):
         return word.text[:-1] + 'ue'
-    elif word.text.endswith('gos') or word.text.endswith('gas'):
+    elif word.text.endswith(('gos', 'gas')):
         return word.text[:-2] + 'ues'
     # -nho/-nha/-nhe
-    elif word.text.endswith('nho') or word.text.endswith('nha'):
+    elif word.text.endswith(('nho', 'nha')):
         return word.text[:-1] + 'e'
-    elif word.text.endswith('nhos') or word.text.endswith('nhas'):
+    elif word.text.endswith(('nhos', 'nhas')):
         return word.text[:-2] + 'es'
     # -ão/-ã/-ae
     elif word.text.endswith('ão'):
@@ -117,9 +117,9 @@ def e_termination_neutralizer(word, check_alt):
     elif word.text.endswith('ons'):
         return word.text[:-2] + 'es'
     # generic
-    elif word.text.endswith('o') or word.text.endswith('a'):
+    elif word.text.endswith(('o', 'a')):
         return word.text[:-1] + 'e'
-    elif word.text.endswith('os') or word.text.endswith('as'):
+    elif word.text.endswith(('os', 'as')):
         return word.text[:-2] + 'es'
 
     return word.text

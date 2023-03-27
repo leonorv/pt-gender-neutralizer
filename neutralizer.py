@@ -19,6 +19,17 @@ functions:
 from gn_grammar import pron_and_dets, adpos, m_to_f_adpos, m_to_f_pron_and_dets, f_to_m_adpos, f_to_m_pron_and_dets, gn_nouns_non_people, gn_adjectives, semi_gn_nouns
 from termination_switchers import e_termination_neutralizer, a_to_o_termination_switcher, o_to_a_termination_switcher
 
+# Estes casos referem-se a pessoas:
+# 'ele lembra-mo' é equivalente a 'ele lembra-me ele'
+# 'vou vê-la' é equivalente a 'vou ver ela'
+def neutralize_hyphenated(word_parent_text):
+    if word_parent_text.endswith(('mo', 'ma')):
+        return word_parent_text[:-1] + 'e'
+    elif word_parent_text.endswith(('lo', 'la')):
+        return word_parent_text[:-1] + 'e'
+    else:
+        return word_parent_text
+
 def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt, multi_tokens, gender_neutral_people, gn_keep, verbs_with_aux):
     res = ""
 

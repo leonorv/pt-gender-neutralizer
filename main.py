@@ -8,7 +8,7 @@ It is completely rule-based.
 import argparse
 import stanza
 from prp_extractor import get_roots_of_people_and_people
-from neutralizer import neutralize
+from neutralizer import neutralize, neutralize_hyphenated
 from gn_grammar import adpos, gn_auxiliary_verbs
 
 #
@@ -21,6 +21,8 @@ args = parser.parse_args()
 with open(args.input_file) as file:
     file_content = open(args.input_file).read()
 f = open(args.output_file, "w")
+
+bin_f = open("./parallel_sets/parallel_tatoeba.txt", "w")
 
 #
 # STANZA MODELS
@@ -69,14 +71,15 @@ check_alt  = (check_alt  == 'y')
 #
 # STANZA PIPELINE
 #
-nlp = stanza.Pipeline(lang="pt", processors = processor_dict)
+# we have disabled sentence tokenization: sentences are split by two consecutive \n
+nlp = stanza.Pipeline(lang="pt", processors = processor_dict, tokenize_no_ssplit=True)
 doc = nlp(file_content)
 
 #
 # STANZA PIPELINE FOR NER (SPANISH)
 #
-
-nlp_ner = stanza.Pipeline(lang="es", processors = spanish_processor_dict)
+# we have disabled sentence tokenization: sentences are split by two consecutive \n
+nlp_ner = stanza.Pipeline(lang="es", processors = spanish_processor_dict, tokenize_no_ssplit=True)
 doc_ner = nlp_ner(file_content)
 
 ner_proper_nouns = []
@@ -88,18 +91,18 @@ for sentence in doc_ner.sentences:
 #
 # Extra prints
 #
-print("\nEXTRAS: Token features as provided by stanza")
-print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.feats if word.feats else "_"}' for sent in doc.sentences for word in sent.words], sep='\n')
+#print("\nEXTRAS: Token features as provided by stanza")
+#print(*[f'word: {word.text}\tupos: {word.upos}\txpos: {word.xpos}\tfeats: {word.feats if word.feats else "_"}' for sent in doc.sentences for word in sent.words], sep='\n')
+#
+#
+#print("\nEXTRA: Dependency parsing")
+#print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
+#
+#
+#print("\nEXTRA: Named Entity Recognition from the spanish pipeline")
+#print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc_ner.sentences for token in sent.tokens], sep='\n')
 
-
-print("\nEXTRA: Dependency parsing")
-print(*[f'id: {word.id}\tword: {word.text}\thead id: {word.head}\thead: {sent.words[word.head-1].text if word.head > 0 else "root"}\tdeprel: {word.deprel}' for sent in doc.sentences for word in sent.words], sep='\n')
-
-
-print("\nEXTRA: Named Entity Recognition from the spanish pipeline")
-print(*[f'token: {token.text}\tner: {token.ner}' for sent in doc_ner.sentences for token in sent.tokens], sep='\n')
-
-
+skip_token = False
 #
 # CREATING NEW STRING
 #
@@ -114,6 +117,9 @@ for sentence in doc.sentences:
     roots_of_people, people, proper_nouns, gender_neutral_people, gn_keep = get_roots_of_people_and_people(sentence, ner_proper_nouns)
 
     for word in sentence.words:
+        if skip_token:
+            skip_token = False
+            continue
 
         #
         # 2. Main verbs with auxiliary verbs that require neutralization. There are some that do not require neutralization (stored in gn_auxiliary verbs)
@@ -127,17 +133,18 @@ for sentence in doc.sentences:
         #
         if word.parent.text != word.text:
 
+            # Checks if it's an hifenated mwt
+            if '-' in word.parent.text:
+                res += (neutralize_hyphenated(word.parent.text) + " ")
+                skip_token = True
+                continue
+
             # MWT first token can be ADP, AUX, or VERB
-            if word.upos in ["ADP", "AUX", "VERB"]:
-
-                # Checks if it's an hifenated mwt
-                if '-' in word.parent.text:
-                    res += (word.parent.text + " ")
-                    continue
+            elif word.upos in ["ADP", "AUX", "VERB"]:
 
 
-                # terms in apos require neutralization
-                elif word.parent.text in adpos.keys():
+                # terms in adpos require neutralization
+                if word.parent.text in adpos.keys():
                     multi_tokens[word.id] = word.parent.text
                 # terms not in adpos are left alone - this is a bit on uncharted territory
                 else:
@@ -180,10 +187,14 @@ for sentence in doc.sentences:
         #print(res)
 
     # adding a new line for each sentence
-    print(sentence.text, "->", res)
+    #print(sentence.text, "->", res)
+    bin_f.write(sentence.text)
+    bin_f.write(' -> ')
+    bin_f.write(res)
+    bin_f.write('\n')
     f.write(res)
-    f.write('\n')
-    #res += "\n"
+    f.write('\n\n')
+
 
         
 
@@ -194,6 +205,7 @@ for sentence in doc.sentences:
 #f.write(res)
 #
 f.close()
+bin_f.close()
 
 
 

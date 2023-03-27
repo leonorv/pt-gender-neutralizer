@@ -297,6 +297,23 @@ adpos = {
     "numa" : "nume",
     "nuns" : "numes",
     "numas" : "numes",
+
+    "desse" : "dessu",
+    "dessa" : "dessu",
+    "desses" : "dessus",
+    "dessas" : "dessus",
+
+    "daquele" : "daquelu",
+    "daquela" : "daquelu",
+    "daqueles" : "daquelus",
+    "daquelas" : "daquelus",
+
+    "naquele" : "naquelu",
+    "naquela" : "naquelu",
+    "naqueles" : "naquelus",
+    "naquelas" : "naquelus"
+
+    
 }
 
 m_to_f_adpos = {
@@ -319,7 +336,16 @@ m_to_f_adpos = {
     "nuns" : "numas",
 
     "o" : "a",
-    "os" : "as"
+    "os" : "as",
+
+    "desse" : "dessa",
+    "desses" : "dessas",
+
+    "daquele" : "daquela",
+    "daqueles" : "daquelas",
+
+    "naquele" : "naquela",
+    "naqueles" : "naquelas",
 }
 
 f_to_m_adpos = {
@@ -342,7 +368,16 @@ f_to_m_adpos = {
     "numas" : "nuns",
 
     "a" : "o",
-    "as" : "os"
+    "as" : "os",
+
+    "dessa" : "desse",
+    "dessas" : "desses",
+
+    "daquela" : "daquele",
+    "daquelas" : "daqueles",
+
+    "naquela" : "naquele",
+    "naquelas" : "naqueles",
 }
 
 truly_gn_terms = ["pessoa", "pessoas", "criança", "crianças", "indivíduo", "indivíduos", "vítima", "vítimas"]
@@ -402,7 +437,7 @@ semi_gn_alternatives = {
 }
 
 # gn_nouns are truly non-binary: i can call a woman OR a man "o meu amor" -> no agreement necessary
-gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara", "família", "destino", "morte"]
+gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara", "família", "destino", "morte", "mentirosa", "estúpida", "beleza", "cabeça", "voz"]
 
 # gn_adjectives are not truly non-binary: i can call a woman "uma capitalista"
 gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior", "impossível"]
@@ -410,3 +445,5 @@ gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "
 # auxliliary verbs for main verbs that require an aux verb, but that do not imply a gendered main verb form
 # ele tem andado
 gn_auxiliary_verbs = ["tenho", "tenha", "tenhas", "tem", "temos", "tendes", "têm", "tinha", "tinhas", "tínhamos", "tinham", "terei", "terá", "teremos", "tereis", "terão", "ter"]
+
+nouns_that_are_always_people = ["miúdo", "miúda", "miúdos", "miúdas", "gaja", "gajo", "gajas", "gajos"]
