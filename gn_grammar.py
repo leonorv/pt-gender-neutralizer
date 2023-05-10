@@ -280,8 +280,8 @@ adpos = {
 
     "pelo" : "por",
     "pela" : "por",
-    "pelos" : "por es",
-    "pelas" : "por es",
+    "pelos" : "peles",
+    "pelas" : "peles",
 
     "do" : "de",
     "da" : "de",
@@ -386,12 +386,6 @@ truly_gn_alternatives = {
     "homens" : ["pessoas", "F"],
     "mulher" : ["pessoa", "F"],
     "mulheres" : ["pessoas", "F"],
-
-    "homem" : ["indivíduo", "M"],
-    "homens" : ["pessoas", "F"],
-    "mulher" : ["pessoa", "F"],
-    "mulheres" : ["pessoas", "F"],
-
 
     "menino" : ["criança", "F"],
     "menina" : ["criança", "F"],
