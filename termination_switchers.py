@@ -34,7 +34,7 @@ def e_termination_neutralizer(word, check_alt):
     elif word.text.endswith('ã'):
         return word.text + 'e'
     elif word.text.endswith('ãos'):
-        return word.text[:-1] + 'es'
+        return word.text[:-2] + 'es'
     elif word.text.endswith('ãs'):
         return word.text[:-1] + 'es'
     # -ona/-one
