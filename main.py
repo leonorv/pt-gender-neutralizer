@@ -22,7 +22,7 @@ with open(args.input_file) as file:
     file_content = open(args.input_file).read()
 f = open(args.output_file, "w")
 
-bin_f = open("./parallel_sets/parallel_tatoeba.txt", "w")
+#bin_f = open("./parallel_sets/parallel_subtle.txt", "w")
 
 #
 # STANZA MODELS
@@ -187,11 +187,11 @@ for sentence in doc.sentences:
         #print(res)
 
     # adding a new line for each sentence
-    #print(sentence.text, "->", res)
-    bin_f.write(sentence.text)
-    bin_f.write(' -> ')
-    bin_f.write(res)
-    bin_f.write('\n')
+    ##print(sentence.text, "->", res)
+    #bin_f.write(sentence.text)
+    #bin_f.write(' -> ')
+    #bin_f.write(res)
+    #bin_f.write('\n')
     f.write(res)
     f.write('\n\n')
 
@@ -205,7 +205,7 @@ for sentence in doc.sentences:
 #f.write(res)
 #
 f.close()
-bin_f.close()
+#bin_f.close()
 
 
 

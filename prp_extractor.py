@@ -3,17 +3,19 @@ People and Roots of People Extractor
 
 Allows for checking if a word processed by Stanza refers to a person.
 
-Requires that `OpenWordnet-PT` be installed within the Python
-environment you are running this script in.
-
 This file can be imported as a module and contains the following
 functions:
 
     * check_refers_to_person - returns the bool value refering to whether the word passed as argument refers to a person or not
-    * get_roots_of_people_and_people - returns two lists: one with the words in a Stanza parsed sentence that refer to people; other with their respective heads in the sentence
+    * get_roots_of_people_and_people - returns five lists: 
+        - words in a Stanza parsed sentence that refer to people; 
+        - their respective heads in the sentence;
+        - ids of proper nouns;
+        - nouns that have an already existing gender-neutral alternative (gn_keep)
+        - nouns that are already gender-neutral (gn_p)
+
 
 """
-
 from nltk.corpus import wordnet as wn
 from gn_grammar import gn_nouns_non_people, truly_gn_alternatives, truly_gn_terms, pronouns_that_are_always_people, nouns_that_are_always_people
 
