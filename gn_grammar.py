@@ -36,10 +36,10 @@ pron_and_dets = {
     "nenhuns" : "nenhumes",
     "nenhumas" : "nenhumes",
 
-    "lo" : "lê",
-    "los" : "lês",
-    "la" : "lê",
-    "las" : "lês",
+    "lo" : "le",
+    "los" : "les",
+    "la" : "le",
+    "las" : "les",
 
     "meu" : "minhe",
     "meus" : "minhes",
@@ -108,7 +108,27 @@ pron_and_dets = {
     "quaisquer" : "quaisquer",
 
     "cada" : "cada",
-    "cadas" : "cadas"
+    "cadas" : "cadas",
+
+    "muito" : "muite",
+    "muitos" : "muites",
+    "muita" : "muite",
+    "muitas" : "muites",
+
+    "pouco" : "pouque",
+    "poucos" : "pouques",
+    "pouca" : "pouque",
+    "poucas" : "pouques",
+
+    "tanto" : "tante",
+    "tantos" : "tantes",
+    "tanta" : "tante",
+    "tantas" : "tantes",
+
+    "ambos" : "ambes",
+    "ambas" : "ambes"
+
+
 }
 
 pronouns_that_are_always_people = ["eu", "tu", "ele", "ela", "nós", "vós", "eles", "elas", "você", "vocês", "me", "te", "lhe"]
@@ -187,7 +207,18 @@ m_to_f_pron_and_dets = {
     "quaisquer" : "quaisquer",
 
     "cada" : "cada",
-    "cadas" : "cadas"
+    "cadas" : "cadas",
+
+    "muito" : "muita",
+    "muitos" : "muitas",
+
+    "pouco" : "pouca",
+    "poucos" : "poucas",
+
+    "tanto" : "tanta",
+    "tantos" : "tantas",
+
+    "ambas" : "ambos",
 }
 
 f_to_m_pron_and_dets = {
@@ -264,7 +295,21 @@ f_to_m_pron_and_dets = {
     "quaisquer" : "quaisquer",
 
     "cada" : "cada",
-    "cadas" : "cadas"
+    "cadas" : "cadas",
+
+    "muita" : "muito",
+    "muitas" : "muitos",
+
+    "muita" : "muito",
+    "muitas" : "muitos",
+
+    "pouca" : "pouco",
+    "poucas" : "poucos",
+
+    "tanta" : "tanto",
+    "tantas" : "tantos",
+
+    "ambos" : "ambas",
 }
 
 adpos = {
@@ -434,7 +479,7 @@ semi_gn_alternatives = {
 gn_nouns_non_people = ["amor", "coração", "paixão", "anjo", "vida", "bem", "sombra", "sol", "luz", "quarto", "desastre", "cara", "família", "destino", "morte", "mentirosa", "estúpida", "beleza", "cabeça", "voz"]
 
 # gn_adjectives are not truly non-binary: i can call a woman "uma capitalista"
-gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior", "impossível"]
+gn_adjectives = ["capitalista", "comunista", "fascista", "liberal", "simples", "difícil", "melhor", "pior", "superior", "inferior", "impossível", "feliz"]
 
 # auxliliary verbs for main verbs that require an aux verb, but that do not imply a gendered main verb form
 # ele tem andado

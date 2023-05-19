@@ -115,7 +115,8 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
                 if omit_dets and word.head in proper_nouns and word.text.lower() in ["o", "os", "a", "as"]:
                     res = "[omitted]"
             else:
-                res = "[Unknown]"
+                #res = "[Unknown]"
+                res = word.text
 
         # usual neutralization
         elif word.head in people and word.head not in gn_nouns_non_people:
@@ -180,7 +181,8 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
             elif gender_neutral_people[word.head] == "M":
                 res = a_to_o_termination_switcher(word)
             else:
-                res = "[Unknown]"
+                #res = "[Unknown]"
+                res = word.text
 
         # no changes: pessoa boa -> pessoa boa
         elif word.head in gn_keep:
@@ -216,7 +218,8 @@ def neutralize(word, people, roots_of_people, proper_nouns, omit_dets, check_alt
                 res = word.text
 
     else:
-        res = "[Unknown]"
+        #res = "[Unknown]"
+        res = word.text
 
 
     # Capitalization

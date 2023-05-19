@@ -16,6 +16,7 @@ functions:
 
 
 """
+import nltk
 from nltk.corpus import wordnet as wn
 from gn_grammar import gn_nouns_non_people, truly_gn_alternatives, truly_gn_terms, pronouns_that_are_always_people, nouns_that_are_always_people
 
