@@ -35,8 +35,14 @@ def neutralize_hyphenated(word_parent_text):
         return word_parent_text[:-1] + 'e'
     elif word_parent_text.endswith(('lhos', 'lhas')):
         return word_parent_text[:-2] + 'es'
+    elif word_parent_text.endswith(('nos', 'nas')):
+        return word_parent_text[:-2] + 'es'
+    elif word_parent_text.endswith(('vos', 'vas')):
+        return word_parent_text[:-2] + 'es'
     elif word_parent_text.endswith(('o', 'a')):
         return word_parent_text[:-1] + 'e'
+    elif word_parent_text.endswith(('os', 'as')):
+        return word_parent_text[:-2] + 'es'
     else:
         return word_parent_text
 
