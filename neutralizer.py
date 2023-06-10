@@ -25,7 +25,17 @@ from termination_switchers import e_termination_neutralizer, a_to_o_termination_
 def neutralize_hyphenated(word_parent_text):
     if word_parent_text.endswith(('mo', 'ma')):
         return word_parent_text[:-1] + 'e'
+    elif word_parent_text.endswith(('mos', 'mas')):
+        return word_parent_text[:-2] + 'es'
     elif word_parent_text.endswith(('lo', 'la')):
+        return word_parent_text[:-1] + 'e'
+    elif word_parent_text.endswith(('los', 'las')):
+        return word_parent_text[:-2] + 'es'
+    elif word_parent_text.endswith(('lho', 'lha')):
+        return word_parent_text[:-1] + 'e'
+    elif word_parent_text.endswith(('lhos', 'lhas')):
+        return word_parent_text[:-2] + 'es'
+    elif word_parent_text.endswith(('o', 'a')):
         return word_parent_text[:-1] + 'e'
     else:
         return word_parent_text
