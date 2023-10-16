@@ -18,16 +18,14 @@ Install the requirements (inside the project folder):
 (venv) pip3 install -r requirements.txt
 ```
 
-Install the Portuguese lexicon required from the Multilingual Wordnet collection:
-```bash
-(venv) python3 -m wn download own-pt:1.0.0
-```
-
-
 ## Execution
 ```python
 (venv) python3 main.py -i [input file name] -o [output file name]
 ```
 - where [input file name] contains the text to rewrite
 - and [output file name] is the file where the output will be written
+
+## Datasets
+- This model was used for creating parallel datasets containing binary-gendered and gender-neutral Portuguese sentences.
+- Those datasets are hosted in the companion repository for this project: https://github.com/leonorv/pt-gn-datasets
 
